@@ -31,6 +31,14 @@ describe BloXL do
   end
 
   describe :bar do
+    it 'places children under each other' do
+      expect(
+        bloxl.bar{
+          row 'one', 'two'
+          row 'three', 'four'
+        }
+      ).to make_spreadsheet [['one', 'two'], ['three', 'four']]
+    end
   end
 
   describe :stack do
