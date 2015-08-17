@@ -2,27 +2,31 @@ module BloXL
   describe Table do
     let(:data){
       [
-        ['one', 'two', 'three'],
-        ['four', 'five', 'six'],
-        ['seven', 'eight', 'nine']
+        ['one', 'two'],
+        ['four', 'five']
       ]
     }
     let(:table){Table.new(data)}
 
     describe :render do
-      subject{Axlsx.make}
+      subject{Sheet.new}
 
       context 'by default' do
         before{table.render(subject)}
-        it{should be_spreedsheet(data)}
+        its(:cells){should ==
+          [
+            [Cell.new('one'), Cell.new('two')],
+            [Cell.new('four'), Cell.new('five')],
+          ]
+        }
       end
 
       context 'with different start coordinates' do
         let(:shifted_data){
-          [[nil] * 4] + data.map{|r| [nil, *r]}
+          [nil] + data.map{|r| [nil, *r.map(&Cell.method(:new))]}
         }
         before{table.render(subject, 1, 1)}
-        it{should be_spreedsheet(shifted_data)}
+        its(:cells){should == shifted_data}
       end
     end
   end

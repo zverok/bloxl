@@ -10,7 +10,7 @@ module BloXL
       @data = data
     end
     
-    def render(sheet, r, c)
+    def render(sheet, r = 0, c = 0)
       @data.each_with_index do |row, dr|
         row.each_with_index do |val, dc|
           sheet.set_cell(r + dr, c + dc, val, @options)

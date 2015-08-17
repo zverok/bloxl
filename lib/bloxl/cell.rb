@@ -1,8 +1,14 @@
 # encoding: utf-8
 module BloXL
   class Cell
-    def initialize(value, options)
+    attr_reader :value, :options
+    
+    def initialize(value, options = {})
       @value, @options = value, options
+    end
+
+    def ==(other)
+      other.is_a?(Cell) && value == other.value
     end
 
     def render(internal_row)
