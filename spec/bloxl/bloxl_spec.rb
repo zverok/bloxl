@@ -24,6 +24,10 @@ describe BloXL do
   end
 
   describe :table do
+    it 'works' do
+      expect(bloxl.table(['one', 'two'], ['three', 'four'], ['five', 'six'])).
+        to make_spreadsheet [['one', 'two'], ['three', 'four'], ['five', 'six']]
+    end
   end
 
   describe :bar do

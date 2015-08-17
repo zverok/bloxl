@@ -19,4 +19,11 @@ class BloXL
     end
     self
   end
+
+  def table(*rows)
+    rows.each do |row|
+      @sheet.add_row row
+    end
+    self
+  end
 end
