@@ -12,4 +12,11 @@ class BloXL
     @sheet.add_row values
     self
   end
+
+  def column(*values)
+    values.each do |val|
+      @sheet.add_row [val]
+    end
+    self
+  end
 end

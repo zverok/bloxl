@@ -2,7 +2,7 @@ describe BloXL do
   let(:bloxl){BloXL.new}
   
   describe :row do
-    it 'works with any number of cells' do
+    it 'works' do
       expect(bloxl.row('one', 'two', 'three')).to make_spreadsheet [['one', 'two', 'three']]
     end
 
@@ -13,6 +13,14 @@ describe BloXL do
   end
 
   describe :column do
+    it 'works' do
+      expect(bloxl.column('one', 'two', 'three')).to make_spreadsheet [['one'], ['two'], ['three']]
+    end
+
+    it 'creates subsequent columns' do
+      expect(bloxl.column('one', 'two', 'three').column.column('foo')).
+        to make_spreadsheet [['one'], ['two'], ['three'], ['foo']]
+    end
   end
 
   describe :table do
