@@ -69,6 +69,27 @@ module BloXL
     end
 
     describe :close do
+      let(:path){xlsx_path}
+      let(:book){Book.new(path)}
+      
+      it 'is not closed on creation' do
+        expect(File.exists?(path)).to eq false
+        expect(book).to be_open
+        expect(book).not_to be_closed
+      end
+
+      it 'is closed, when, errr, closed' do
+        book.close
+        expect(book).not_to be_open
+        expect(book).to be_closed
+      end
+
+      it 'is auto-saved on close' do
+        book.close
+        expect(File.exists?(path)).to eq true
+        expect{book.save}.to raise_error(RuntimeError, /closed/)
+      end
+
     end
 
     #describe :open do

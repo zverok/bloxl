@@ -23,11 +23,25 @@ module BloXL
     end
 
     def save(path = nil)
-      path ||= @path or fail(ArgumentError, "Save path is not set")
+      open? or fail(RuntimeError, 'Book is already closed')
+      path ||= @path or fail(ArgumentError, 'Save path is not set')
       package = Axlsx::Package.new
       @sheets.each(&:prepare).each{|sheet| sheet.render(package.workbook.add_worksheet)}
 
       package.serialize(path)
+    end
+
+    def close(path = nil)
+      save(path)
+      @closed = true
+    end
+
+    def closed?
+      @closed
+    end
+
+    def open?
+      !closed?
     end
     
     #class << self
