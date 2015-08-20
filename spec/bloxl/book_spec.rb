@@ -92,27 +92,29 @@ module BloXL
 
     end
 
-    #describe :open do
-      #context 'without block' do
-        #subject{Book.open('tmp/test.xlsx')}
-        #it{should be_a Book}
-        #it{should be_open}
-        #its(:path){should == 'tmp/test.xlsx'}
-        #specify{
-          #expect(File.exists?('tmp/test.xlsx')).to eq false
-        #}
-      #end
+    describe :open do
+      let(:path){xlsx_path}
+      
+      context 'without block' do
+        subject!{Book.open(path)}
+        it{should be_a Book}
+        it{should be_open}
+        its(:path){should == path}
+        specify{
+          expect(File.exists?(path)).to eq false
+        }
+      end
 
-      #context 'with block' do
-        #subject{Book.open('tmp/test.xlsx')}
-        #it{should be_a Book}
-        #it{should_not be_open}
-        #its(:path){should == 'tmp/test.xlsx'}
-        #specify{
-          #expect(File.exists?('tmp/test.xlsx')).to eq true
-        #}
-      #end
-    #end
+      context 'with block' do
+        subject!{Book.open(path){sheet{row [1, 2, 3]}}}
+        it{should be_a Book}
+        it{should_not be_open}
+        its(:path){should == path}
+        specify{
+          expect(File.exists?(path)).to eq true
+        }
+      end
+    end
 
   end
 end

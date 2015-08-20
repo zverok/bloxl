@@ -1,10 +1,11 @@
 module BloXL
   class Book
-    attr_reader :sheets
+    attr_reader :sheets, :path
     
-    def initialize(path = nil)
+    def initialize(path = nil, &block)
       @path = path
       @sheets = []
+      block and instance_eval(&block)
     end
 
     extend Forwardable
@@ -42,6 +43,14 @@ module BloXL
 
     def open?
       !closed?
+    end
+
+    class << self
+      def open(path = nil, &block)
+        new(path, &block).tap{|book|
+          book.close if block
+        }
+      end
     end
     
     #class << self
