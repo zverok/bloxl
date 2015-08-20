@@ -5,20 +5,6 @@ $:.unshift 'lib'
 
 require 'bloxl'
 
-#RSpec::Matchers.define :make_spreadsheet do |expected|
-  #match do |bloxl|
-    ## FIXME haha
-    #path = 'tmp/spec.xlsx'
-    #bloxl.axlsx.serialize(path)
-    #@actual = Roo::Spreadsheet.open(path).sheet(0).to_a
-    #@actual == expected
-  #end
-
-  #failure_message do |actual|
-    #"expected that spreadsheet contains #{expected}, though #{@actual}" 
-  #end
-#end
-
 RSpec::Matchers.define :be_sheet_of do |*expected_rows|
   match do |sheet|
     # FIXME haha
@@ -31,6 +17,10 @@ RSpec::Matchers.define :be_sheet_of do |*expected_rows|
   failure_message do |actual|
     "expected that worksheet to contain #{expected_rows}, though #{@actual}" 
   end
+end
+
+def c(*arg)
+  BloXL::Cell.new(*arg)
 end
 
 class Roo::Base

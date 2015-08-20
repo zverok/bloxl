@@ -5,11 +5,11 @@ module BloXL
       table [[value]], options
     end
 
-    def row(array = [], options = {})
+    def row(array = [nil], options = {})
       table [array], options
     end
 
-    def column(array = [], options = {})
+    def column(array = [nil], options = {})
       table [array].transpose, options
     end
 
@@ -25,7 +25,7 @@ module BloXL
       add_block(Stack.new(options, &block))
     end
 
-    def formula(options = {}, &block)
-    end
+    #def formula(options = {}, &block)
+    #end
   end
 end

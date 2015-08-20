@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative './cell'
+require_relative 'cell'
 
 module BloXL
   class Sheet
@@ -12,9 +12,14 @@ module BloXL
 
     attr_reader :cells
 
-    def initialize
+    def initialize(&block)
       @cells = []
+      @main = Stack.new(&block)
     end
+
+    extend Forwardable
+
+    def_delegators :@main, :cell, :row, :column, :table, :bar, :stack
 
     def render(internal)
       #@main.render(self, 0, 0)
