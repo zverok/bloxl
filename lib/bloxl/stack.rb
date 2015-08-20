@@ -1,6 +1,8 @@
 # encoding: utf-8
 module BloXL
-  class Stack < Block
+  class Stack < Group
+    protected
+    
     def _render(sheet, r, c)
       max_h, max_w, dr = 0, 0, 0
       children.each do |child|

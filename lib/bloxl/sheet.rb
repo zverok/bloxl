@@ -33,6 +33,11 @@ module BloXL
       @cells[r][c] = Cell.new(val, options)
     end
 
+    def set_cell?(r, c, val, options = {})
+      @cells[r] ||= []
+      @cells[r][c] ||= Cell.new(val, options)
+    end
+
     private
 
     def expand_cells!

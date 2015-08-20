@@ -29,8 +29,3 @@ module BloXL
     end
   end
 end
-
-require_relative './block'
-require_relative './bar'
-require_relative './stack'
-require_relative './table'

@@ -9,8 +9,10 @@ module BloXL
         
       @data = data
     end
+
+    protected
     
-    def render(sheet, r = 0, c = 0)
+    def _render(sheet, r, c)
       @data.each_with_index do |row, dr|
         row.each_with_index do |val, dc|
           sheet.set_cell(r + dr, c + dc, val, @options)

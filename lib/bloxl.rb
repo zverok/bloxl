@@ -2,6 +2,9 @@ require 'axlsx'
 
 require_relative 'bloxl/block'
 require_relative 'bloxl/table'
+require_relative 'bloxl/stack'
+require_relative 'bloxl/bar'
+
 require_relative 'bloxl/sheet'
 
 #class BloXL
