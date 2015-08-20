@@ -1,47 +1,70 @@
-# encoding: utf-8
-require 'axlsx'
-require_relative './sheet'
-
 module BloXL
   class Book
-    class << self
-      def make(path = nil, &block)
-        new.make(&block).tap{|book|
-          path and book.save(path)
-        }
-      end
-    end
+    attr_reader :sheets
     
-    def initialize
-      @package = Axlsx::Package.new
+    def initialize(path = nil)
+      @path = path
       @sheets = []
     end
 
-    def make(&block)
-      instance_eval(&block)
+    extend Forwardable
+    def_delegators :default_sheet, *DSL.instance_methods
 
-      self
+    def default_sheet
+      @default_sheet ||= begin
+        @sheets << Sheet.new
+        @sheets.last
+      end
+    end
+
+    def sheet(&block)
+      @sheets << Sheet.new(&block)
+      @sheets.last
+    end
+
+    def save(path = nil)
+      path ||= @path or fail(ArgumentError, "Save path is not set")
+      package = Axlsx::Package.new
+      @sheets.each(&:prepare).each{|sheet| sheet.render(package.workbook.add_worksheet)}
+
+      package.serialize(path)
     end
     
-    def save(path)
-      render!
+    #class << self
+      #def make(path = nil, &block)
+        #new.make(&block).tap{|book|
+          #path and book.save(path)
+        #}
+      #end
+    #end
+    
+    #def initialize
+      #@package = Axlsx::Package.new
+      #@sheets = []
+    #end
+
+    #def make(&block)
+      #instance_eval(&block)
+
+      #self
+    #end
+    
+    #def save(path)
+      #render!
       
-      @package.use_shared_strings = true
-      @package.serialize(path)
+      #@package.use_shared_strings = true
+      #@package.serialize(path)
 
-      self
-    end
+      #self
+    #end
 
-    private
+    #private
 
-    def render!
-      @sheets.each{|sheet|
-        sheet.render(@package.workbook.add_worksheet(name: sheet.name))
-      }
-    end
+    #def render!
+      #@sheets.each{|sheet|
+        #sheet.render(@package.workbook.add_worksheet(name: sheet.name))
+      #}
+    #end
 
-    def sheet(name, &block)
-      @sheets << Sheet.new(self, name, &block)
-    end
   end
 end

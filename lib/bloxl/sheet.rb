@@ -19,7 +19,12 @@ module BloXL
 
     extend Forwardable
 
-    def_delegators :@main, :cell, :row, :column, :table, :bar, :stack
+    def_delegators :@main, *DSL.instance_methods
+
+    def prepare
+      @main.render(self, 0, 0)
+      self
+    end
 
     def render(internal)
       #@main.render(self, 0, 0)

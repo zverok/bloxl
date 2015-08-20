@@ -37,3 +37,15 @@ class Axlsx::Worksheet
     (workbook || Axlsx::Workbook.new).add_worksheet
   end
 end
+
+def xlsx_path
+  FileUtils.mkdir_p 'spec/tempfiles'
+  randstr = ('a'..'z').sort_by{rand}.first(10).join
+  "spec/tempfiles/#{randstr}.xlsx"
+end
+
+RSpec.configure do |spec|
+  spec.before do
+    FileUtils.rm_rf "spec/tempfiles/*.xlsx"
+  end
+end

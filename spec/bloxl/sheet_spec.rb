@@ -17,6 +17,12 @@ module BloXL
       end
     end
 
+    describe 'DSL' do
+    end
+
+    describe :prepare do
+    end
+
     describe :render do
       let(:axlsx){Axlsx::Worksheet.make}
       

@@ -6,6 +6,7 @@ require_relative 'bloxl/stack'
 require_relative 'bloxl/bar'
 
 require_relative 'bloxl/sheet'
+require_relative 'bloxl/book'
 
 #class BloXL
   #attr_reader :axlsx
