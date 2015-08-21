@@ -4,3 +4,4 @@ vendor
 tmp
 deprecated
 spec/tempfiles
+examples/output/*.xlsx*
