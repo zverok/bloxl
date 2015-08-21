@@ -1,7 +1,7 @@
 module BloXL
   describe 'one-sheet workbook' do
     before{
-      BloXL::Book.open('tmp/one-sheet.xlsx'){
+      BloXL.open('tmp/one-sheet.xlsx'){
         bar{
           column ['test', 'me']
           column
