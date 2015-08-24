@@ -58,17 +58,17 @@ MARKS = [
   ['A-', 'A', 'B+']
 ]
 
-BloXL.open('semester1.xlsx) do
-  row ['Semester 1 marks']
-  row                                   # empty row
+BloXL.open('semester1.xlsx) do |b|
+  b.row ['Semester 1 marks']
+  b.row                                   # empty row
       
-  stack{                                # place children under each other
-                                        #   (the same as default behavior, yet
-                                        #   also provides logical grouping of children)
-    row ['', 'Math', 'Phisics', 'Art']  # one-dimensional array horizontally
-    bar{                                # place children leftmost of each other
-      column ['Bob', 'Ann', 'Kate']     # one-dimensional array vertically
-      table MARKS                       # two-dimensional table
+  b.stack{                                # place children under each other
+                                          #   (the same as default behavior, yet
+                                          #   also provides logical grouping of children)
+    b.row ['', 'Math', 'Phisics', 'Art']  # one-dimensional array horizontally
+    b.bar{                                # place children leftmost of each other
+      b.column ['Bob', 'Ann', 'Kate']     # one-dimensional array vertically
+      b.table MARKS                       # two-dimensional table
     }
   }
 end
@@ -101,26 +101,26 @@ MARKS2 = [
 STUDENTS = ['Bob', 'Ann', 'Kate']
 CLASSES = ['Math', 'Phisics', 'Art']
 
-BloXL.open('examples/output/2tables.xlsx') do
+BloXL.open('examples/output/2tables.xlsx') do |b|
 
-  bar{
-    stack{                                
-      cell 'Semester 1'
-      row                                   
-      row ['', *CLASSES]  
-      bar{                                
-        column STUDENTS
-        table MARKS1
+  b.bar{
+    b.stack{                                
+      b.cell 'Semester 1'
+      b.row                                   
+      b.row ['', *CLASSES]  
+      b.bar{                                
+        b.column STUDENTS
+        b.table MARKS1
       }
     }
-    column
-    stack{                                
-      cell 'Semester 2'
-      row                                   
-      row ['', *CLASSES]  
-      bar{                                
-        column STUDENTS
-        table MARKS2
+    b.column
+    b.stack{                                
+      b.cell 'Semester 2'
+      b.row                                   
+      b.row ['', *CLASSES]  
+      b.bar{                                
+        b.column STUDENTS
+        b.table MARKS2
       }
     }
   }

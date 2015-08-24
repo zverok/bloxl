@@ -17,26 +17,26 @@ MARKS2 = [
 STUDENTS = ['Bob', 'Ann', 'Kate']
 CLASSES = ['Math', 'Phisics', 'Art']
 
-BloXL.open('examples/output/2tables.xlsx') do
+BloXL.open('examples/output/2tables.xlsx') do |b|
 
-  bar{
-    stack{                                
-      cell 'Semester 1'
-      row                                   
-      row ['', *CLASSES]  
-      bar{                                
-        column STUDENTS
-        table MARKS1
+  b.bar{
+    b.stack{                                
+      b.cell 'Semester 1'
+      b.row                                   
+      b.row ['', *CLASSES]  
+      b.bar{                                
+        b.column STUDENTS
+        b.table MARKS1
       }
     }
-    column
-    stack{                                
-      cell 'Semester 2'
-      row                                   
-      row ['', *CLASSES]  
-      bar{                                
-        column STUDENTS
-        table MARKS2
+    b.column
+    b.stack{                                
+      b.cell 'Semester 2'
+      b.row                                   
+      b.row ['', *CLASSES]  
+      b.bar{                                
+        b.column STUDENTS
+        b.table MARKS2
       }
     }
   }

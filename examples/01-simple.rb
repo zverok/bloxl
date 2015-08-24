@@ -9,17 +9,17 @@ MARKS = [
 ]
 
 
-BloXL.open('examples/output/simple.xlsx') do
-  row ['Semester 1 marks']
-  row                                   # empty row
+BloXL.open('examples/output/simple.xlsx') do |b|
+  b.row ['Semester 1 marks']
+  b.row                                   # empty row
       
-  stack{                                # place children under each other
-                                        #   (the same as default behavior, yet
-                                        #   also provides logical grouping of children)
-    row ['', 'Math', 'Phisics', 'Art']  # one-dimensional array horizontally
-    bar{                                # place children leftmost of each other
-      column ['Bob', 'Ann', 'Kate']     # one-dimensional array vertically
-      table MARKS                       # two-dimensional table
+  b.stack{                                # place children under each other
+                                          #   (the same as default behavior, yet
+                                          #   also provides logical grouping of children)
+    b.row ['', 'Math', 'Phisics', 'Art']  # one-dimensional array horizontally
+    b.bar{                                # place children leftmost of each other
+      b.column ['Bob', 'Ann', 'Kate']     # one-dimensional array vertically
+      b.table MARKS                       # two-dimensional table
     }
   }
 end
