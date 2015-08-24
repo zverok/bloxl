@@ -5,11 +5,13 @@ module BloXL
     def initialize(path = nil, &block)
       @path = path
       @sheets = []
-      block and instance_eval(&block)
+      yield self if block
     end
 
     extend Forwardable
-    def_delegators :default_sheet, *DSL.instance_methods
+
+    def_delegators :default_builder,
+      :cell, :row, :column, :table, :bar, :stack
 
     def default_sheet
       @default_sheet ||= begin
@@ -19,15 +21,15 @@ module BloXL
     end
 
     def sheet(&block)
-      @sheets << Sheet.new(&block)
-      @sheets.last
+      @sheets << Sheet.new
+      @sheets.last.build(&block)
     end
 
     def save(path = nil)
       open? or fail(RuntimeError, 'Book is already closed')
       path ||= @path or fail(ArgumentError, 'Save path is not set')
       package = Axlsx::Package.new
-      @sheets.each(&:prepare).each{|sheet| sheet.render(package.workbook.add_worksheet)}
+      @sheets.each{|sheet| sheet.render(package.workbook.add_worksheet)}
 
       package.serialize(path)
     end
@@ -52,14 +54,12 @@ module BloXL
         }
       end
     end
-    
-    #class << self
-      #def make(path = nil, &block)
-        #new.make(&block).tap{|book|
-          #path and book.save(path)
-        #}
-      #end
-    #end
+
+    private
+
+    def default_builder
+      default_sheet.build
+    end
     
     #def initialize
       #@package = Axlsx::Package.new
@@ -88,6 +88,5 @@ module BloXL
         #sheet.render(@package.workbook.add_worksheet(name: sheet.name))
       #}
     #end
-
   end
 end

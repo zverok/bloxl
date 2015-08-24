@@ -3,31 +3,20 @@ require_relative 'cell'
 
 module BloXL
   class Sheet
-    #attr_reader :name
-    #def initialize(book, name, &block)
-      #@book, @name = book, name
-      #@main = Stack.new(&block)
-      #@cells = []
-    #end
-
     attr_reader :cells
 
     def initialize(&block)
       @cells = []
-      @main = Stack.new(&block)
     end
 
-    extend Forwardable
-
-    def_delegators :@main, *DSL.instance_methods
-
-    def prepare
-      @main.render(self, 0, 0)
-      self
+    def build
+      @builder ||= Builder.new(self)
+      @builder.tap{|b|
+        yield b if block_given?
+      }
     end
 
     def render(internal)
-      #@main.render(self, 0, 0)
       expand_cells!
 
       @cells.each do |row|
@@ -59,15 +48,5 @@ module BloXL
         end
       end
     end
-
-    #def set_defaults(br, bc, er, ec, options)
-      #(br...er).each do |r|
-        #@cells[r] ||= []
-        
-        #(bc...ec).each do |c|
-          #row[c] ||= Cell.new(nil, options)
-        #end
-      #end
-    #end
   end
 end

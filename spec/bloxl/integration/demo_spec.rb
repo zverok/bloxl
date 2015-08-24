@@ -1,11 +1,11 @@
 module BloXL
   describe 'one-sheet workbook' do
     before{
-      BloXL.open('tmp/one-sheet.xlsx'){
-        bar{
-          column ['test', 'me']
-          column
-          row ['love', 'me', 'tenderly']
+      BloXL.open('tmp/one-sheet.xlsx'){|b|
+        b.bar{
+          b.column ['test', 'me']
+          b.column
+          b.row ['love', 'me', 'tenderly']
         }
       }
     }

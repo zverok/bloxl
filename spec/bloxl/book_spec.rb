@@ -10,27 +10,29 @@ module BloXL
       it 'should create it implicitly' do
         book.row [1, 2, 3]
         expect(book.sheets.count).to eq 1
-        expect(book.sheets.first.prepare.cells).to eq [[c(1), c(2), c(3)]]
+        expect(book.sheets.first.cells).to eq [[c(1), c(2), c(3)]]
       end
     end
 
     describe :sheet do
       describe 'without block' do
-        subject{book.sheet}
+        before{book.sheet}
+        subject{book.sheets.last}
 
         it{should be_a Sheet}
-        its(:'prepare.cells'){should be_empty}
+        its(:cells){should be_empty}
       end
 
       describe 'with block' do
-        subject{
-          book.sheet{
-            row [1, 2, 3]
+        before{
+          book.sheet{|b|
+            b.row [1, 2, 3]
           }
         }
+        subject{book.sheets.last}
 
         it{should be_a Sheet}
-        its(:'prepare.cells'){should == [[c(1), c(2), c(3)]]}
+        its(:cells){should == [[c(1), c(2), c(3)]]}
       end
     end
 
@@ -55,11 +57,11 @@ module BloXL
 
       it 'writes data, actually!' do
         b = Book.new
-        b.sheet{
-          row [1, 2, 3]
+        b.sheet{|s|
+          s.row [1, 2, 3]
         }
-        b.sheet{
-          row [4, 5, 6]
+        b.sheet{|s|
+          s.row [4, 5, 6]
         }
         b.save(path)
         actual = Roo::Spreadsheet.open(path)
@@ -106,7 +108,7 @@ module BloXL
       end
 
       context 'with block' do
-        subject!{Book.open(path){sheet{row [1, 2, 3]}}}
+        subject!{Book.open(path){|b| b.sheet{|s| s.row [1, 2, 3]}}}
         it{should be_a Book}
         it{should_not be_open}
         its(:path){should == path}

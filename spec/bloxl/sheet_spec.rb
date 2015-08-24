@@ -17,7 +17,20 @@ module BloXL
       end
     end
 
-    describe 'DSL' do
+    describe :build do
+      it 'works without block' do
+        expect(sheet.build).to be_a Builder
+        expect(sheet.cells).to be_empty
+
+        sheet.build.row [1, 2, 3]
+        sheet.build.row [4, 5, 6]
+        expect(sheet.cells).to eq [[c(1), c(2), c(3)], [c(4), c(5), c(6)]]
+      end
+
+      it 'works with block' do
+        expect(sheet.build{|b| b.row [1, 2, 3]}).to be_a Builder
+        expect(sheet.cells).to eq [[c(1), c(2), c(3)]]
+      end
     end
 
     describe :prepare do
