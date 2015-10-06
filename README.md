@@ -58,7 +58,7 @@ MARKS = [
   ['A-', 'A', 'B+']
 ]
 
-BloXL.open('semester1.xlsx) do |b|
+BloXL.open('semester1.xlsx') do |b|
   b.row ['Semester 1 marks']
   b.row                                   # empty row
       
